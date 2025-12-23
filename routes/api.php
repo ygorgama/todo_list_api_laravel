@@ -8,4 +8,8 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::apiResource('tasks', \App\Http\Controllers\Api\V1\TaskController::class)->middleware('auth:sanctum');
+Route::apiResource('tasks', \App\Http\Controllers\Api\V1\TaskController::class)->middleware(['auth:sanctum']);
+Route::apiResource('users', \App\Http\Controllers\Api\V1\UserController::class)->only(['store']);
+
+
+Route::post('/login', [\App\Http\Controllers\Api\V1\Auth\LoginController::class, 'login'])->name('login');
