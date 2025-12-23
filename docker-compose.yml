@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:18.1-alpine3.23
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: todo_database
+    volumes:
+      - db_data:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+    container_name: todo_list_db
+    networks:
+      - todo_list_network
+volumes:
+  db_data:
+networks:
+  todo_list_network:
+    driver: bridge
