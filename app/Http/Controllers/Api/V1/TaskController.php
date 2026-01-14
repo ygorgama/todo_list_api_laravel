@@ -12,9 +12,17 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Task::all();
+        $request->validate([
+            'completed' => 'boolean|sometimes',
+            'title' => 'string|sometimes',
+        ]);
+
+        $task = Task::query();
+
+        $task->ownedBy(request()->user()->id);
+        return  $task->get();
     }
 
     /**
