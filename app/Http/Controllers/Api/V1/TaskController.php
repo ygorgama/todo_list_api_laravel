@@ -58,6 +58,9 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
+        if (request()->user()->cannot('update-task', $task))
+            abort(403, "You do not have permission to view this task.");
+
         return response()->json([
             "message" => "Task retrieved successfully.",
             "task" => $task
@@ -67,8 +70,10 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function update(TaskRequest $request, Task $task)
     {
+        if (request()->user()->cannot('update-task', $task))
+            abort(403, "You do not have permission to update this task.");
         $task->update($request->validated());
         return response()->json([
             "message" => "Task updated successfully.",
@@ -81,6 +86,9 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+        if (request()->user()->cannot('update-task', $task))
+            abort(403, "You do not have permission to delete this task.");
+
         $task->delete();
         return response()->noContent();
     }
