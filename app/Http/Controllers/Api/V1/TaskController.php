@@ -22,7 +22,16 @@ class TaskController extends Controller
         $task = Task::query();
 
         $task->ownedBy(request()->user()->id);
-        return  $task->get();
+
+        if ($request->filled('completed')) {
+            $task->searchByStatus($request->completed);
+        }
+
+        if ($request->filled('title')) {
+            $task->searchByTitle($request->title);
+        }
+
+        return $task->get();
     }
 
     /**
